@@ -65,4 +65,29 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, createProduct, deleteProduct, getProductById, updateProduct };
+const searchProduct = asyncHandler(async (req, res)=>{
+
+  console.log(req.params.name);
+  // res.send(req.params.name)
+
+
+   try {
+     
+     const regex = new RegExp(req.params.name, "i"); // Case-insensitive search
+
+     const products = await Product.find({ name: regex });
+     res.json(products);
+   } catch (error) {
+     console.error("Error searching for products:", error);
+     res.status(500).json({ error: "Internal server error" });
+   }
+})
+
+module.exports = {
+  getProducts,
+  createProduct,
+  deleteProduct,
+  getProductById,
+  updateProduct,
+  searchProduct,
+};
