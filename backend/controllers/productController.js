@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Product = require('../models/productModel')
+const Product = require("../models/productModel");
 
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find();
@@ -49,7 +49,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   const product = await Product.findById(req.params.id);
 
-
   if (product) {
     product.sku = sku;
     product.qty = qty;
@@ -65,23 +64,20 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-const searchProduct = asyncHandler(async (req, res)=>{
-
+const searchProduct = asyncHandler(async (req, res) => {
   console.log(req.params.name);
   // res.send(req.params.name)
 
+  try {
+    const regex = new RegExp(req.params.name, "i"); // Case-insensitive search
 
-   try {
-     
-     const regex = new RegExp(req.params.name, "i"); // Case-insensitive search
-
-     const products = await Product.find({ name: regex });
-     res.json(products);
-   } catch (error) {
-     console.error("Error searching for products:", error);
-     res.status(500).json({ error: "Internal server error" });
-   }
-})
+    const products = await Product.find({ name: regex });
+    res.json(products);
+  } catch (error) {
+    console.error("Error searching for products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = {
   getProducts,
