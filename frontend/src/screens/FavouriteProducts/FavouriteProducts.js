@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import { Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoffee, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
-import image from '../../assets/product-img-1.png'
+import image from "../../assets/product-img-1.png";
 
 const FavouriteProducts = () => {
   return (
@@ -42,7 +42,7 @@ const FavouriteProducts = () => {
 
       {/* Table */}
       <div>
-        <table class="table mt-14 px-6 text-center">
+        <table className="table mt-14 px-6 text-center">
           <thead>
             <tr>
               <th scope="col">SKU</th>
@@ -56,14 +56,14 @@ const FavouriteProducts = () => {
           </thead>
 
           <tbody>
-            <tr>
-              <th scope="row">#CA</th>
+            <tr style={{borderBottom:"transparent"}}>
+              <td className="my-auto ">#CA</td>
               <td className="text-center ">
                 <img src={image} className="w-12 inline-block" />
               </td>
               <td>Product name</td>
               <td>30</td>
-              <td className="flex gap-1">
+              <td className="flex bg-red-400">
                 <div>
                   <FontAwesomeIcon icon={faStar} style={{ color: "#001EB9" }} />
                 </div>
@@ -75,6 +75,8 @@ const FavouriteProducts = () => {
                 </div>
               </td>
             </tr>
+
+          
           </tbody>
         </table>
       </div>
