@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
-  SKU: {
+  sku: {
     type: String,
     required: true,
   },
-  QTY: {
-    type: String,
+  qty: {
+    type: Number,
     required: true,
   },
   name: {
