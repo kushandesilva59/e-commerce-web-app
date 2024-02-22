@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 
-const AddNewProduct = () => {
+const EditProduct = () => {
   const [dragging, setDragging] = useState(false);
   const [images, setImages] = useState([]);
-
 
   const handleRemove = (index) => {
     const updatedFiles = [...images];
@@ -48,21 +47,19 @@ const AddNewProduct = () => {
         setImages(newImages);
       };
       reader.readAsDataURL(file);
-      console.log(file)
+      console.log(file);
     });
   };
 
-
-
   const addProductHandler = () => {
-    console.log()
+    console.log();
   };
   return (
     <div className="mx-5">
       <div>
         <h1 className="inline-block mr-6">PRODUCTS </h1>
         <h1 className="inline-block mr-6">&gt; </h1>
-        <h5 className="inline-block">Add new product</h5>
+        <h5 className="inline-block">Edit product</h5>
       </div>
 
       <div className="mt-10 mx-32">
@@ -166,4 +163,4 @@ const AddNewProduct = () => {
   );
 };
 
-export default AddNewProduct;
+export default EditProduct;

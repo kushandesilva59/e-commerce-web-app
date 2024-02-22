@@ -5,6 +5,7 @@ import LandingPage from './screens/LandingPage/LandingPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ProductsPage from './screens/ProductsPage/ProductsPage';
 import AddNewProduct from './screens/AddNewProduct/AddNewProduct';
+import EditProduct from './screens/EditProduct/EditProduct';
 
 
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/favourite" element={<FavouriteProducts />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/new-product" element={<AddNewProduct />} />
+          <Route path="/t" element={<EditProduct />} />
 
         </Routes>
       </main>

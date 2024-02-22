@@ -1,5 +1,5 @@
 import React from "react";
-import MyDropzone from "../components/MyDropZone/MyDropZone";
+
 
 function TestScreem (){
   return (
@@ -11,8 +11,6 @@ function TestScreem (){
       </div>
 
       <div className="mt-10 mx-32">
-        {/* Your form inputs */}
-        <MyDropzone /> {/* Move MyDropzone component here */}
       </div>
     </div>
   );
