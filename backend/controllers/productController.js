@@ -7,7 +7,7 @@ const getProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
-const createNote = asyncHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
   const { sku, qty, name, images, description } = req.body;
 
   if (!sku || !qty || !name || !images || !description) {
@@ -23,7 +23,7 @@ const createNote = asyncHandler(async (req, res) => {
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.sku);
+  const product = await Product.findById(req.params.id);
 
   if (product) {
     await Product.findByIdAndDelete(product.id);
@@ -34,4 +34,14 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, createNote, deleteProduct };
+const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    res.status(201).json(product);
+  } else {
+    res.status(404).json({ message: "Product not found" });
+  }
+});
+
+module.exports = { getProducts, createProduct, deleteProduct, getProductById };

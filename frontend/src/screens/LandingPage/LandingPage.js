@@ -19,21 +19,28 @@ const LandingPage = () => {
   const fetchProducts = async () => {
     const { data } = await axios.get("http://localhost:5000/api/products");
     setProducts(data);
-    console.log(data);
+    console.log(data)
   };
 
   useEffect(() => {
     console.log("ok");
     fetchProducts();
-    console.log(products);
+    console.log(products)
   }, []);
 
-  const handleDelete = async (sku) => {
+  const handleDelete = async (id) => {
+    console.log(id)
     try {
-      await axios.delete(`http://localhost:5000/api/products/${sku}`);
+
+
+      
+
+     
+      await axios.delete(`http://localhost:5000/api/products/${id}`);
 
       //remake the products without deleted one
-      setProducts(products.filter((product) => product.sku !== sku));
+      setProducts(products.filter((product) => product.id !== id));
+      window.location.reload(true);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -111,7 +118,7 @@ const LandingPage = () => {
                         icon={faTrash}
                         style={{ color: "#001EB9" }}
                         className="cursor-pointer"
-                        onClick={() => handleDelete(product.sku)}
+                        onClick={() => handleDelete(product._id)}
                       />
                     </div>
                     <div>
