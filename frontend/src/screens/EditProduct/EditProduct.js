@@ -156,7 +156,7 @@ const EditProduct = () => {
 
       <div className="flex justify-end  mr-96">
         <Button className="justify-self-end mr-14" onClick={addProductHandler}>
-          Add Product
+          Save changes
         </Button>
       </div>
     </div>

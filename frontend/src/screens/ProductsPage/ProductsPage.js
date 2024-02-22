@@ -39,6 +39,16 @@ const ProductsPage = () => {
       </div>
 
       <h4 className='text-gray-500'>4 results found for 'Books'</h4>
+
+      <div className='mx-28'>
+        <div className='mt-5'>
+          <h4 className='text-sm'>#CA25</h4>
+          <h2 className='font-base'>Product-name</h2>
+          <p className='text-xs text-gray-400'>Lore KASDFHASKF ASUIF DKASMFAIF IASDFUASIFJAFIDFJDFISDFUF  fsdfisfsdfk</p>
+          <hr />
+
+        </div>
+      </div>
     </div>
   );
 }
