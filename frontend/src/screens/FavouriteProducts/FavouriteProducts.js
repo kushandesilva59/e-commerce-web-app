@@ -16,7 +16,7 @@ const FavouriteProducts = () => {
           style={{ borderRadius: "50px" }}
         >
           <input
-            type="email"
+            type="text"
             placeholder="name@example.com"
             style={{ borderRadius: "50px" }}
             className="bg-gray-200 border-opacity-0 focus:border-transparent focus:outline-none pl-5 py-2 w-full"

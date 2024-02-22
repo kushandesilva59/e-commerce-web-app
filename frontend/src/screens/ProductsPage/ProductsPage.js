@@ -1,12 +1,16 @@
-import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react'
-import { Button } from 'react-bootstrap';
-
+import { faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import axios from "axios";
 
 const ProductsPage = () => {
+
+ 
+
+
   return (
-    <div className='mx-5'>
+    <div className="mx-5">
       <h1>FAVOURITE PRODUCTS</h1>
       <div className="flex justify-between my-10">
         <div
@@ -14,8 +18,8 @@ const ProductsPage = () => {
           style={{ borderRadius: "50px" }}
         >
           <input
-            type="email"
-            placeholder="name@example.com"
+            type="text"
+            placeholder="Search for products"
             style={{ borderRadius: "50px" }}
             className="bg-gray-200 border-opacity-0 focus:border-transparent focus:outline-none pl-5 py-2 w-full"
           />
@@ -38,19 +42,21 @@ const ProductsPage = () => {
         </div>
       </div>
 
-      <h4 className='text-gray-500'>4 results found for 'Books'</h4>
+      <h4 className="text-gray-500">4 results found for 'Books'</h4>
 
-      <div className='mx-28'>
-        <div className='mt-5'>
-          <h4 className='text-sm'>#CA25</h4>
-          <h2 className='font-base'>Product-name</h2>
-          <p className='text-xs text-gray-400'>Lore KASDFHASKF ASUIF DKASMFAIF IASDFUASIFJAFIDFJDFISDFUF  fsdfisfsdfk</p>
+      <div className="mx-28">
+        <div className="mt-5">
+          <h4 className="text-sm">#CA25</h4>
+          <h2 className="font-base">Product-name</h2>
+          <p className="text-xs text-gray-400">
+            Lore KASDFHASKF ASUIF DKASMFAIF IASDFUASIFJAFIDFJDFISDFUF
+            fsdfisfsdfk
+          </p>
           <hr />
-
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ProductsPage
+export default ProductsPage;

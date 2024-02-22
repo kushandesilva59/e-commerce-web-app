@@ -4,7 +4,15 @@ import { useDropzone } from "react-dropzone";
 
 const AddNewProduct = () => {
   const [dragging, setDragging] = useState(false);
+  
   const [images, setImages] = useState([]);
+  const [sku, setSku] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [qty, setQty] = useState(0);
+
+
+
 
 
   const handleRemove = (index) => {
@@ -55,7 +63,15 @@ const AddNewProduct = () => {
 
 
   const addProductHandler = () => {
-    console.log()
+
+    const data = {
+      sku: sku,
+      qty: qty,
+      name: name,
+      images: images,
+      description: description
+    }
+    console.log(data)
   };
   return (
     <div className="mx-5">
@@ -73,6 +89,7 @@ const AddNewProduct = () => {
             placeholder="name"
             className=" w-1/4 pl-2 rounded-sm h-10"
             style={{ background: "#f7f7f7" }}
+            onChange={(e) => setSku(e.target.value)}
           />
         </div>
 
@@ -84,6 +101,7 @@ const AddNewProduct = () => {
               placeholder="name"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
@@ -94,6 +112,7 @@ const AddNewProduct = () => {
               placeholder="name"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
+              onChange={(e) => setQty(e.target.value)}
             />
           </div>
         </div>
@@ -108,6 +127,7 @@ const AddNewProduct = () => {
             placeholder="name"
             className=" pl-2 rounded-sm w-4/5 h-20"
             style={{ background: "#f7f7f7" }}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
