@@ -44,4 +44,25 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, createProduct, deleteProduct, getProductById };
+const updateProduct = asyncHandler(async (req, res) => {
+  const { sku, qty, name, description, images } = req.body;
+
+  const product = await Product.findById(req.params.id);
+
+
+  if (product) {
+    product.sku = sku;
+    product.qty = qty;
+    product.name = name;
+    product.description = description;
+    product.images = images;
+
+    const updatedProduct = await product.save();
+    res.status(201).json(updatedProduct);
+  } else {
+    res.status(404).json({ message: "Product not found" });
+    throw new Error("Product not found");
+  }
+});
+
+module.exports = { getProducts, createProduct, deleteProduct, getProductById, updateProduct };
