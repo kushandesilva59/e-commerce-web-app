@@ -1,20 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AddNewProduct = () => {
   const [dragging, setDragging] = useState(false);
-  
+
   const [images, setImages] = useState([]);
-  const [sku, setSku] = useState('');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [sku, setSku] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [qty, setQty] = useState(0);
 
-
-
-
+  const navigater = useNavigate();
 
   const handleRemove = (index) => {
     const updatedFiles = [...images];
@@ -57,32 +56,37 @@ const AddNewProduct = () => {
         setImages(newImages);
       };
       reader.readAsDataURL(file);
-      console.log(file)
+      console.log(file);
     });
   };
 
+  const addProductHandler = async () => {
+    const product = {
+      sku: sku,
+      qty: qty,
+      name: name,
+      images: images,
+      description: description,
+    };
 
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/products/create",
+        product
+      );
+      console.log(data);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
 
-const addProductHandler = async () => {
-  const product = {
-    sku: sku,
-    qty: qty,
-    name: name,
-    images: images,
-    description: description,
+    Swal.fire({
+      title: "Done!",
+      text: "Product added succesfully!",
+      icon: "success",
+    });
+
+    // navigater("/")
   };
-
-  try {
-    const { data } = await axios.post(
-      "http://localhost:5000/api/products/create",
-      product
-    );
-    console.log(data); 
-  } catch (error) {
-    console.error("Error adding product:", error);
-
-  }
-};
   return (
     <div className="mx-5">
       <div>
@@ -96,7 +100,7 @@ const addProductHandler = async () => {
           <label className="mr-5 w-10">SKU</label>
           <input
             type="text"
-            placeholder="name"
+            placeholder="#CA25"
             className=" w-1/4 pl-2 rounded-sm h-10"
             style={{ background: "#f7f7f7" }}
             onChange={(e) => setSku(e.target.value)}
@@ -108,7 +112,7 @@ const addProductHandler = async () => {
             <label className="mr-5 w-10">Name</label>
             <input
               type="text"
-              placeholder="name"
+              placeholder="Laptop"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
               onChange={(e) => setName(e.target.value)}
@@ -118,8 +122,8 @@ const addProductHandler = async () => {
           <div className="w-full">
             <label className="mr-5 w-10">QTY</label>
             <input
-              type="text"
-              placeholder="name"
+              type="number"
+              placeholder="25"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
               onChange={(e) => setQty(e.target.value)}
@@ -134,7 +138,7 @@ const addProductHandler = async () => {
           </p>
           <textarea
             type="text"
-            placeholder="name"
+            placeholder="Small description about your product"
             className=" pl-2 rounded-sm w-4/5 h-20"
             style={{ background: "#f7f7f7" }}
             onChange={(e) => setDescription(e.target.value)}
@@ -156,20 +160,22 @@ const addProductHandler = async () => {
             >
               {
                 <div className="image-preview flex gap-3 mb-6">
-                  {images.map((image, index) => (
-                    <div key={index}>
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`Image ${index + 1}`}
-                        className="preview-image"
-                        style={{ width: "60px" }}
-                      />
-                      <button onClick={() => handleRemove(index)}>
-                        Delete
-                      </button>
-                    </div>
-                  ))}
+                  {images
+                    ? images.map((image, index) => (
+                        <div key={index}>
+                          <img
+                            key={index}
+                            src={image}
+                            alt={`Image ${index + 1}`}
+                            className="preview-image"
+                            style={{ width: "60px" }}
+                          />
+                          <button onClick={() => handleRemove(index)}>
+                            Delete
+                          </button>
+                        </div>
+                      ))
+                    : ""}
                 </div>
               }
               {

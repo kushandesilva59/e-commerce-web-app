@@ -11,10 +11,13 @@ import {
 import image from "../../assets/product-img-1.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const LandingPage = () => {
   const [products, setProducts] = useState([]);
   const navigater = useNavigate();
+
+  const [searchText, setSearchText] = useState("");
 
   const fetchProducts = async () => {
     try {
@@ -32,26 +35,48 @@ const LandingPage = () => {
     console.log(products);
   }, []);
 
-  const handleDelete = async (id) => {
-    console.log(id);
-    try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+  const handleDelete = (id) => {
+    Swal.fire({
+      icon: "info",
+      title: "Are you sure?",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Delted!", "", "success");
+        console.log(id);
+        try {
+          axios.delete(`http://localhost:5000/api/products/${id}`);
 
-      //remake the products without deleted one
-      setProducts(products.filter((product) => product.id !== id));
-      window.location.reload(true);
+          //remake the products without deleted one
+          setProducts(products.filter((product) => product.id !== id));
+          window.location.reload(true);
+        } catch (error) {
+          console.error("Error deleting product:", error);
+        }
+      }
+    });
+  };
+
+  const handleEdit = async (id) => {
+    try {
+      navigater(`/t/${id}`);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   };
 
-  const handleEdit = async (id) => {
+  const seachHandler = async () => {
     try {
-      //  const product = await axios.get(`http://localhost:5000/api/products/${id}`);
-      //   console.log(product.data)
-      navigater(`/t/${id}`);
-    } catch (error) {
-      console.error("Error deleting product:", error);
+      const { data } = await axios.get(
+        `http://localhost:5000/api/products/search/${searchText}`
+      );
+      console.log(data);
+      localStorage.setItem("searchResults", JSON.stringify(data));
+      navigater('/products')
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -68,11 +93,13 @@ const LandingPage = () => {
             placeholder="Search for products"
             style={{ borderRadius: "50px" }}
             className="bg-gray-200 border-opacity-0 focus:border-transparent focus:outline-none pl-5 py-2 w-full"
+            onChange={(e) => setSearchText(e.target.value)}
           />
 
           <div
             className="absolute w-1/5 h-8 m-2 right-1 cursor-pointer flex px-2 justify-around items-center"
             style={{ borderRadius: "50px", background: "#001EB9" }}
+            onClick={seachHandler}
           >
             <FontAwesomeIcon icon={faSearch} style={{ color: "fff" }} />
             <div className="text-white">Search</div>

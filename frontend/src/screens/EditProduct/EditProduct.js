@@ -60,8 +60,25 @@ const EditProduct = () => {
     });
   };
 
-  const editHandler = () => {
-    console.log("Product id : ", id);
+  const editHandler = async() => {
+
+    const data = {
+      "sku": sku,
+      "qty": qty,
+      "name": name,
+      "images": images,
+      "description": description
+    }
+
+      try {
+        const product = await axios.put(`http://localhost:5000/api/products/${id}`,data);
+        console.log(product.data)
+
+       
+    } catch (err) {
+      console.log(err)
+    }
+
   };
 
   const fetchData = async() => {
@@ -74,7 +91,9 @@ const EditProduct = () => {
         setQty(product.data.qty)
         setDescription(product.data.description)
         setImages(product.data.images)
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   useEffect(() => {
