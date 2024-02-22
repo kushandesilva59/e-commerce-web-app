@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useDropzone } from "react-dropzone";
+import { useParams } from "react-router-dom";
+
 
 const EditProduct = () => {
   const [dragging, setDragging] = useState(false);
+
   const [images, setImages] = useState([]);
+  const [sku, setSku] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [qty, setQty] = useState(0);
+
+  const { id } = useParams();
 
   const handleRemove = (index) => {
     const updatedFiles = [...images];
@@ -51,9 +60,27 @@ const EditProduct = () => {
     });
   };
 
-  const addProductHandler = () => {
-    console.log();
+  const editHandler = () => {
+    console.log("Product id : ", id);
   };
+
+  const fetchData = async() => {
+    try {
+        const product = await axios.get(`http://localhost:5000/api/products/${id}`);
+        console.log(product.data)
+
+        setSku(product.data.sku)
+        setName(product.data.name)
+        setQty(product.data.qty)
+        setDescription(product.data.description)
+        setImages(product.data.images)
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    console.log(id);
+    fetchData();
+  }, []);
   return (
     <div className="mx-5">
       <div>
@@ -70,6 +97,8 @@ const EditProduct = () => {
             placeholder="name"
             className=" w-1/4 pl-2 rounded-sm h-10"
             style={{ background: "#f7f7f7" }}
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
           />
         </div>
 
@@ -81,6 +110,8 @@ const EditProduct = () => {
               placeholder="name"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
@@ -91,6 +122,8 @@ const EditProduct = () => {
               placeholder="name"
               className=" pl-2 rounded-sm w-1/2 h-10"
               style={{ background: "#f7f7f7" }}
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
             />
           </div>
         </div>
@@ -105,6 +138,8 @@ const EditProduct = () => {
             placeholder="name"
             className=" pl-2 rounded-sm w-4/5 h-20"
             style={{ background: "#f7f7f7" }}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
@@ -155,7 +190,7 @@ const EditProduct = () => {
       </div>
 
       <div className="flex justify-end  mr-96">
-        <Button className="justify-self-end mr-14" onClick={addProductHandler}>
+        <Button className="justify-self-end mr-14" onClick={editHandler}>
           Save changes
         </Button>
       </div>

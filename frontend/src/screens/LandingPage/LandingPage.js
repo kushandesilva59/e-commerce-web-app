@@ -17,30 +17,39 @@ const LandingPage = () => {
   const navigater = useNavigate();
 
   const fetchProducts = async () => {
-    const { data } = await axios.get("http://localhost:5000/api/products");
-    setProducts(data);
-    console.log(data)
+    try {
+      const { data } = await axios.get("http://localhost:5000/api/products");
+      setProducts(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     console.log("ok");
     fetchProducts();
-    console.log(products)
+    console.log(products);
   }, []);
 
   const handleDelete = async (id) => {
-    console.log(id)
+    console.log(id);
     try {
-
-
-      
-
-     
       await axios.delete(`http://localhost:5000/api/products/${id}`);
 
       //remake the products without deleted one
       setProducts(products.filter((product) => product.id !== id));
       window.location.reload(true);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleEdit = async (id) => {
+    try {
+      //  const product = await axios.get(`http://localhost:5000/api/products/${id}`);
+      //   console.log(product.data)
+      navigater(`/t/${id}`);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -126,6 +135,7 @@ const LandingPage = () => {
                         icon={faPen}
                         style={{ color: "#001EB9" }}
                         className="cursor-pointer"
+                        onClick={() => handleEdit(product._id)}
                       />
                     </div>
                     <div>

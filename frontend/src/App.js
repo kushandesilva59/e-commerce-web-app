@@ -21,7 +21,7 @@ function App() {
           <Route path="/favourite" element={<FavouriteProducts />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/new-product" element={<AddNewProduct />} />
-          <Route path="/t" element={<EditProduct />} />
+          <Route path="/t/:id" element={<EditProduct />} />
 
         </Routes>
       </main>
