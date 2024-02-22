@@ -1,28 +1,43 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import { Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faSearch,
+  faStar,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import image from "../../assets/product-img-1.png";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [products, setProducts] = useState([]);
+  const navigater = useNavigate();
 
   const fetchProducts = async () => {
     const { data } = await axios.get("http://localhost:5000/api/products");
     setProducts(data);
-    console.log(
-      data
-    )
+    console.log(data);
   };
 
   useEffect(() => {
     console.log("ok");
     fetchProducts();
-    console.log(products)
+    console.log(products);
   }, []);
+
+  const handleDelete = async (sku) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/products/${sku}`);
+
+      //remake the products without deleted one
+      setProducts(products.filter((product) => product.sku !== sku));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
   return (
     <div className="mx-5">
       <h1>PRODUCTS</h1>
@@ -49,7 +64,12 @@ const LandingPage = () => {
         </div>
 
         <div className="flex m-2 w-44 justify-between">
-          <Button style={{ background: "#001EB9" }}>New product</Button>
+          <Button
+            style={{ background: "#001EB9" }}
+            onClick={() => navigater("/new-product")}
+          >
+            New product
+          </Button>
           {/* <div className="border-blue-500 w-10 flex justify-center items-center"><FontAwesomeIcon icon={faStar} /></div> */}
           <Button className="bg-transparent">
             <FontAwesomeIcon icon={faStar} style={{ color: "#001EB9" }} />
@@ -73,35 +93,39 @@ const LandingPage = () => {
           </thead>
 
           <tbody>
-           
-
-
-            {products.map((product)=>{
+            {products.map((product, index) => {
               return (
                 <tr style={{ borderBottom: "transparent" }} key={product.sku}>
                   <td className="my-auto ">{product.sku}</td>
                   <td className="text-center ">
-                    <img src={product.images[0] ? product.images[0] : image} className="w-12 inline-block" />
+                    <img
+                      src={product.images[0] ? product.images[0] : image}
+                      className="w-12 inline-block"
+                    />
                   </td>
                   <td>{product.name}</td>
                   <td>{product.qty}</td>
-                  <td className="flex bg-red-400">
+                  <td className="flex bg-red-400 gap-3">
                     <div>
                       <FontAwesomeIcon
-                        icon={faStar}
+                        icon={faTrash}
                         style={{ color: "#001EB9" }}
+                        className="cursor-pointer"
+                        onClick={() => handleDelete(product.sku)}
+                      />
+                    </div>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faPen}
+                        style={{ color: "#001EB9" }}
+                        className="cursor-pointer"
                       />
                     </div>
                     <div>
                       <FontAwesomeIcon
                         icon={faStar}
                         style={{ color: "#001EB9" }}
-                      />
-                    </div>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        style={{ color: "#001EB9" }}
+                        className="cursor-pointer"
                       />
                     </div>
                   </td>

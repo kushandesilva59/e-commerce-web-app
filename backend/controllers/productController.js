@@ -22,4 +22,16 @@ const createNote = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, createNote };
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.sku);
+
+  if (product) {
+    await Product.findByIdAndDelete(product.id);
+    res.json({ message: "Product removed!..." });
+  } else {
+    res.status(404).json({ message: "Product not found" });
+    throw new Error("Product not found");
+  }
+});
+
+module.exports = { getProducts, createNote, deleteProduct };

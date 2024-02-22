@@ -1,6 +1,7 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { useDropzone } from "react-dropzone";
+
 
 const AddNewProduct = () => {
   const [dragging, setDragging] = useState(false);
@@ -62,17 +63,26 @@ const AddNewProduct = () => {
 
 
 
-  const addProductHandler = () => {
-
-    const data = {
-      sku: sku,
-      qty: qty,
-      name: name,
-      images: images,
-      description: description
-    }
-    console.log(data)
+const addProductHandler = async () => {
+  const product = {
+    sku: sku,
+    qty: qty,
+    name: name,
+    images: images,
+    description: description,
   };
+
+  try {
+    const { data } = await axios.post(
+      "http://localhost:5000/api/products/create",
+      product
+    );
+    console.log(data); 
+  } catch (error) {
+    console.error("Error adding product:", error);
+
+  }
+};
   return (
     <div className="mx-5">
       <div>
